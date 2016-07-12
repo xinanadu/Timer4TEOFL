@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         checkBoxAlarmMorning.setOnCheckedChangeListener(checkListner);
         checkBoxAlarmNight.setOnCheckedChangeListener(checkListner);
 
-        Calendar cal = Calendar.getInstance();
+        final Calendar cal = Calendar.getInstance();
         int startDayOfYear = cal.get(Calendar.DAY_OF_YEAR);
         cal.set(2016, 7, 20);
         int inteval = cal.get(Calendar.DAY_OF_YEAR) - startDayOfYear;
@@ -113,6 +113,18 @@ public class MainActivity extends AppCompatActivity {
         spanString.setSpan(spanForeColor, finalStr.length(), spanString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvETA.setText(spanString);
 
+        findViewById(R.id.btnTest).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.add(Calendar.SECOND, 3);
+                intentAlarmReceiver.putExtra("flag", "TEST");
+                pendingIntentAlarm = PendingIntent.getBroadcast(MainActivity.this, 0, intentAlarmReceiver, 0);
+                alarmMgr.setInexactRepeating(AlarmManager.RTC, calendar.getTimeInMillis(),
+                        AlarmManager.INTERVAL_DAY, pendingIntentAlarm);
+                setReceiver(true);
+            }
+        });
     }
 
     private void setReceiver(boolean enabled) {

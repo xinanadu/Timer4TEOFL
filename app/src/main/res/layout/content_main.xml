@@ -29,8 +29,15 @@
         android:id="@+id/tvETA"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="距离TOEFL(AUG.20)还有\n2天"
-        android:paddingTop="20dp"
+        android:layout_below="@id/ckbAlarmNight"
         android:gravity="center_horizontal"
-        android:layout_below="@id/ckbAlarmNight" />
+        android:paddingTop="20dp"
+        android:text="距离TOEFL(AUG.20)还有\n2天" />
+
+    <Button
+        android:id="@+id/btnTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ckbAlarmNight"
+        android:text="test" />
 </RelativeLayout>

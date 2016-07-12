@@ -2,6 +2,7 @@ package com.symbio.android.webview.timer;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -10,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -26,7 +29,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
+        if (TextUtils.equals(intent.getAction(), "android.intent.action.BOOT_COMPLETED")) {
             Intent intentAlarmReceiver = new Intent(context, AlarmReceiver.class);
             SharedPreferences prefs = context.getSharedPreferences("alarm",
                     Activity.MODE_PRIVATE);
@@ -59,11 +62,13 @@ public class AlarmReceiver extends BroadcastReceiver {
             } else if (TextUtils.equals(str, "MORNING")) {
                 str += "Wake up";
             }
+            Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(context)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("TOEFL")
-                            .setContentText(str);
+                            .setContentText(str).setAutoCancel(true).setSound(alarmSound).setVisibility(Notification.VISIBILITY_PRIVATE);
 // Creates an explicit intent for an Activity in your app
             Intent resultIntent = new Intent(context, MainActivity.class);
 
